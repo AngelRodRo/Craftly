@@ -1,6 +1,6 @@
 # Craftly
 
-Mini e-commerce de servicios digitales enfocado en prácticas de Redux Toolkit, manejo de estado persistente, arquitectura modular y diseño UI moderno con React + Tailwind.
+Mini e-commerce for digital services focused on practicing Redux Toolkit, persistent state management, modular architecture, and modern UI design with React and Tailwind.
 
 ## 🎯 Purpose
 
