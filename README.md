@@ -2,6 +2,46 @@
 
 Mini e-commerce for digital services focused on practicing Redux Toolkit, persistent state management, modular architecture, and modern UI design with React and Tailwind.
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version ≥ 18 recommended)
+- npm, [yarn](https://yarnpkg.com/), or [pnpm](https://pnpm.io/)
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/AngelRodRo/Craftly.git
+cd Craftly
+```
+
+Install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### Development
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Then open your browser at:
+
+```
+http://localhost:5173
+```
+
 ## 🎯 Purpose
 
 The goal of this project is to build a mini digital services marketplace as a way to practice advanced frontend development skills. This includes using Redux Toolkit for global state management, building a modular architecture, implementing UI/UX best practices with TailwindCSS and Framer Motion, and deploying a fully functional SPA.
