@@ -57,7 +57,7 @@ Example:
 ## 🗂️ Folder Structure (Planned)
 
 ```markdown
-my-app/
+Craftly/
 ├── public/                       # Static files (index.html, favicon, etc.)
 ├── src/
 │   ├── app/                      # Global app configuration
