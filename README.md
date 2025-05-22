@@ -85,16 +85,12 @@ The goal of this project is to build a mini digital services marketplace as a wa
 
 ## 🧩 Modules / Components
 
-What are the key functional areas or domains?
-
-Example:
-
 - Catalog
 - Cart
 - Auth
 - Admin Panel
 
-## 🗂️ Folder Structure (Planned)
+## 🗂️ Folder Structure 
 
 ```markdown
 Craftly/
