@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { Service } from "./model";
 import { fetchServices as fetchServicesApi } from "./api";
+import type { Filter } from "./types";
 
 interface ServicesState {
   services: Service[];
@@ -14,10 +15,10 @@ const initialState: ServicesState = {
   error: null,
 };
 
-export const fetchServices = createAsyncThunk<Service[]>(
+export const fetchServices = createAsyncThunk<Service[], Filter>(
   "services/fetchServices",
-  async () => {
-    const response = await fetchServicesApi();
+  async (filter: Filter) => {
+    const response = await fetchServicesApi(filter);
     return response;
   }
 );

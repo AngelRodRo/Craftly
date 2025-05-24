@@ -1,7 +1,27 @@
+import type { Filter } from "../types";
 import { generateMockServices } from "../utils";
 
-export const fetchServices = async () => {
-  const services = generateMockServices(10);
+export const fetchServices = async (filter: Filter) => {
+  let services = generateMockServices(10);
   await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  if (filter.name) {
+    services = services.filter((service) =>
+      service.name.toLowerCase().includes(filter.name.toLowerCase())
+    );
+  }
+
+  if (filter.price.min) {
+    services = services.filter((service) => service.price >= filter.price.min);
+  }
+  if (filter.price.max) {
+    services = services.filter((service) => service.price <= filter.price.max);
+  }
+  if (filter.category.length > 0) {
+    services = services.filter((service) =>
+      filter.category.includes(service.category)
+    );
+  }
+
   return services;
 };
