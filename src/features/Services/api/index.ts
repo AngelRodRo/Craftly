@@ -1,5 +1,9 @@
 import type { Filter } from "../types";
-import { generateMockServices } from "../utils";
+import { categories, generateMockServices } from "../utils";
+
+export const fetchCategories = async () => {
+  return categories;
+};
 
 export const fetchServices = async (filter: Filter) => {
   let services = generateMockServices(10);
