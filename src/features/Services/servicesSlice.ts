@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import type { Service } from "./model";
 import {
   fetchServices as fetchServicesApi,
@@ -10,6 +14,8 @@ interface ServicesState {
   services: Service[];
   categories: string[];
   loading: boolean;
+
+  filter: Filter;
   error: string | null;
 }
 
@@ -17,6 +23,11 @@ const initialState: ServicesState = {
   services: [],
   categories: [],
   loading: false,
+  filter: {
+    name: "",
+    category: [],
+    price: { min: undefined, max: undefined },
+  },
   error: null,
 };
 
@@ -39,7 +50,11 @@ export const fetchCategories = createAsyncThunk<string[], void>(
 const servicesSlice = createSlice({
   name: "services",
   initialState,
-  reducers: {},
+  reducers: {
+    setFilter: (state, action: PayloadAction<Filter>) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchServices.pending, (state) => {
@@ -70,5 +85,7 @@ const servicesSlice = createSlice({
       });
   },
 });
+
+export const { setFilter } = servicesSlice.actions;
 
 export default servicesSlice.reducer;

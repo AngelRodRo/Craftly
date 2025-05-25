@@ -1,8 +1,8 @@
 interface Filter {
-  name: string;
+  name: string | null;
   price: {
-    min: number;
-    max: number;
+    min?: number;
+    max?: number;
   };
   category: string[];
 }
