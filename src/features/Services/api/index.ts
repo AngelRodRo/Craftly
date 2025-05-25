@@ -22,9 +22,11 @@ export const fetchServices = async (filter: Filter) => {
     services = services.filter((service) => service.price <= filter.price.max);
   }
   if (filter.category.length > 0) {
-    services = services.filter((service) =>
-      filter.category.includes(service.category)
-    );
+    if (!filter.category.includes("all")) {
+      services = services.filter((service) =>
+        filter.category.includes(service.category)
+      );
+    }
   }
 
   return services;
