@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   fetchCategories,
   fetchServices,
+  setFilter,
 } from "@/features/Services/servicesSlice";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
@@ -12,6 +13,8 @@ import Filters from "./Filters";
 
 export default function Home() {
   const dispatch = useAppDispatch();
+
+  const [search, setSearch] = useState("");
 
   const services = useAppSelector((state) => state.services.services);
   const filter = useAppSelector((state) => state.services.filter);
@@ -27,8 +30,22 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4 my-4">
       <div className="flex justify-center gap-2">
-        <Input type="text" placeholder="Search" className="w-1/2" />
-        <Button>Search</Button>
+        <Input
+          type="text"
+          placeholder="Search"
+          className="w-1/2"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+        <Button
+          disabled={!search}
+          className="cursor-pointer"
+          onClick={() => dispatch(fetchServices({ ...filter, name: search }))}
+        >
+          Search
+        </Button>
       </div>
       <div className="flex gap-4 mx-8">
         <Filters />
