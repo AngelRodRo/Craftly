@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   fetchCategories,
   fetchServices,
-  setFilter,
 } from "@/features/Services/servicesSlice";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
