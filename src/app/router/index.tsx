@@ -2,7 +2,7 @@ import { Route } from "react-router";
 import { BrowserRouter } from "react-router";
 import { Routes } from "react-router";
 import Layout from "@/shared/components/Layout";
-import Home from "@/pages/Home";
+import Home from "@/pages/Home/index";
 
 export default function Router() {
   return (
