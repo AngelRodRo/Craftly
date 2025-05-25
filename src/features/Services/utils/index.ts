@@ -1,6 +1,6 @@
 import type { Service } from "../model";
 
-const categories = [
+export const categories = [
   "Cleaning",
   "Maintenance",
   "Repair",
