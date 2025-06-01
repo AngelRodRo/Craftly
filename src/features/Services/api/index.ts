@@ -15,13 +15,14 @@ export const fetchServices = async (filter: Filter) => {
     );
   }
 
-  if (filter.price.min) {
-    services = services.filter((service) => service.price >= filter.price.min);
+  if (filter.priceMin) {
+    services = services.filter((service) => service.price >= filter.priceMin);
   }
-  if (filter.price.max) {
-    services = services.filter((service) => service.price <= filter.price.max);
+
+  if (filter.priceMax) {
+    services = services.filter((service) => service.price <= filter.priceMax);
   }
-  if (filter.category.length > 0) {
+  if (filter.category?.length && filter.category.length > 0) {
     if (!filter.category.includes("all")) {
       services = services.filter((service) =>
         filter.category.includes(service.category)

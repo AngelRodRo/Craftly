@@ -26,7 +26,8 @@ const initialState: ServicesState = {
   filter: {
     name: "",
     category: [],
-    price: { min: undefined, max: undefined },
+    priceMin: null,
+    priceMax: null,
   },
   error: null,
 };

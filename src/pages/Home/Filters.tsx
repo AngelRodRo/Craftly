@@ -7,28 +7,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { useSearchParams } from "react-router";
 
 export default function Filters() {
   const categories = useAppSelector((state) => state.services.categories);
   const filter = useAppSelector((state) => state.services.filter);
   const dispatch = useAppDispatch();
 
-  const handleCategoryChange = (value: string) => {
-    dispatch(setFilter({ ...filter, category: [value] }));
-  };
+  const [, setSearchParams] = useSearchParams();
 
-  const handlePriceChange = (value: string) => {
-    dispatch(setFilter({ ...filter, price: { min: Number(value) } }));
-  };
+  const handleFilterChange = (key: string, value: string) => {
+    setSearchParams((prev) => {
+      prev.set(key, value);
+      return prev;
+    });
 
-  const handlePriceMaxChange = (value: string) => {
-    dispatch(setFilter({ ...filter, price: { max: Number(value) } }));
+    dispatch(setFilter({ ...filter, [key]: value }));
   };
 
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-2xl font-bold">Filters</h2>
-      <Select onValueChange={(value) => handleCategoryChange(value)}>
+      <Select onValueChange={(value) => handleFilterChange("category", value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>
@@ -41,7 +41,7 @@ export default function Filters() {
           ))}
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => handlePriceChange(value)}>
+      <Select onValueChange={(value) => handleFilterChange("priceMin", value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select a price" />
         </SelectTrigger>
@@ -59,7 +59,7 @@ export default function Filters() {
           <SelectItem value="1000">1000</SelectItem>
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => handlePriceMaxChange(value)}>
+      <Select onValueChange={(value) => handleFilterChange("priceMax", value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select a price" />
         </SelectTrigger>
