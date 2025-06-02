@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 export default function Filters() {
@@ -14,7 +15,24 @@ export default function Filters() {
   const filter = useAppSelector((state) => state.services.filter);
   const dispatch = useAppDispatch();
 
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const name = searchParams.get("name") ?? "";
+    const priceMin = searchParams.get("priceMin") ?? "";
+    const priceMax = searchParams.get("priceMax") ?? "";
+    const category = searchParams.get("category") ?? "all";
+
+    dispatch(
+      setFilter({
+        ...filter,
+        name,
+        priceMin: priceMin ? Number(priceMin) : null,
+        priceMax: priceMax ? Number(priceMax) : null,
+        category: category.split(","),
+      })
+    );
+  }, [searchParams, dispatch, setSearchParams]);
 
   const handleFilterChange = (key: string, value: string) => {
     setSearchParams((prev) => {
@@ -22,13 +40,28 @@ export default function Filters() {
       return prev;
     });
 
-    dispatch(setFilter({ ...filter, [key]: value }));
+    if (key === "category") {
+      if (value === "all") {
+        dispatch(setFilter({ ...filter, category: [] }));
+      } else {
+        dispatch(setFilter({ ...filter, category: [value] }));
+      }
+    } else {
+      dispatch(setFilter({ ...filter, [key]: value }));
+    }
   };
 
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-2xl font-bold">Filters</h2>
-      <Select onValueChange={(value) => handleFilterChange("category", value)}>
+      <Select
+        value={
+          filter.category && filter.category.length > 0
+            ? filter.category.join(",")
+            : "all"
+        }
+        onValueChange={(value) => handleFilterChange("category", value)}
+      >
         <SelectTrigger>
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>
@@ -41,7 +74,10 @@ export default function Filters() {
           ))}
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => handleFilterChange("priceMin", value)}>
+      <Select
+        value={filter.priceMin === null ? "" : filter.priceMin.toString()}
+        onValueChange={(value) => handleFilterChange("priceMin", value)}
+      >
         <SelectTrigger>
           <SelectValue placeholder="Select a price" />
         </SelectTrigger>
@@ -59,7 +95,10 @@ export default function Filters() {
           <SelectItem value="1000">1000</SelectItem>
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => handleFilterChange("priceMax", value)}>
+      <Select
+        value={filter.priceMax === null ? "" : filter.priceMax.toString()}
+        onValueChange={(value) => handleFilterChange("priceMax", value)}
+      >
         <SelectTrigger>
           <SelectValue placeholder="Select a price" />
         </SelectTrigger>

@@ -11,6 +11,8 @@ import { Input } from "@/shared/components/ui/input";
 import Filters from "./Filters";
 import ServiceCard from "@/features/Services/components/ServiceCard";
 
+//TODO: add pagination
+//TODO: add loading state
 export default function Home() {
   const dispatch = useAppDispatch();
 
