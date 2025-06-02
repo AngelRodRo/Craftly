@@ -11,16 +11,20 @@ export const fetchServices = async (filter: Filter) => {
 
   if (filter.name) {
     services = services.filter((service) =>
-      service.name.toLowerCase().includes(filter.name.toLowerCase())
+      service.name.toLowerCase().includes(filter.name?.toLowerCase() ?? "")
     );
   }
 
   if (filter.priceMin) {
-    services = services.filter((service) => service.price >= filter.priceMin);
+    services = services.filter(
+      (service) => service.price >= (filter.priceMin ?? 0)
+    );
   }
 
   if (filter.priceMax) {
-    services = services.filter((service) => service.price <= filter.priceMax);
+    services = services.filter(
+      (service) => service.price <= (filter.priceMax ?? 0)
+    );
   }
   if (filter.category?.length && filter.category.length > 0) {
     if (!filter.category.includes("all")) {
