@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useSearchParams } from "react-router";
+
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { setFilter } from "@/features/Services/servicesSlice";
 import {
@@ -7,8 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { useEffect } from "react";
-import { useSearchParams } from "react-router";
 
 export default function Filters() {
   const categories = useAppSelector((state) => state.services.categories);
