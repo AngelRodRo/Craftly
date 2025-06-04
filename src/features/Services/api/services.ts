@@ -6,8 +6,7 @@ export const fetchCategories = async () => {
 };
 
 export const fetchServices = async (filter: Filter) => {
-  let services = generateMockServices(10);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  let services = await generateMockServices(10);
 
   if (filter.name) {
     services = services.filter((service) =>

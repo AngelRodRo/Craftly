@@ -8,7 +8,10 @@ export const categories = [
   "Consultation",
 ];
 
-export const generateMockServices = (count: number = 10): Service[] => {
+export const generateMockServices = async (
+  count: number = 10
+): Promise<Service[]> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   return Array.from({ length: count }, (_, index) => ({
     id: `service-${index + 1}`,
     name: `Service ${index + 1}`,
