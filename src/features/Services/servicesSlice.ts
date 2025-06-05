@@ -11,6 +11,7 @@ import {
 } from "./api";
 import type { Filter } from "./types";
 import { DEFAULT_SERVICE_LIMIT } from "./constants/service";
+import { FETCH_SERVICES, FETCH_CATEGORIES } from "./actions";
 
 interface ServicesState {
   services: Service[];
@@ -39,7 +40,7 @@ export const initialState: ServicesState = {
 };
 
 export const fetchServices = createAsyncThunk<FetchServicesResponse, Filter>(
-  "services/fetchServices",
+  FETCH_SERVICES,
   async (filter: Filter) => {
     const response = await fetchServicesApi(filter);
     return response;
@@ -47,7 +48,7 @@ export const fetchServices = createAsyncThunk<FetchServicesResponse, Filter>(
 );
 
 export const fetchCategories = createAsyncThunk<string[], void>(
-  "services/fetchCategories",
+  FETCH_CATEGORIES,
   async () => {
     const response = await fetchCategoriesApi();
     return response;

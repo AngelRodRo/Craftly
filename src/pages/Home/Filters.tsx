@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { DEFAULT_SERVICE_LIMIT } from "@/features/Services/constants/service";
 
 export default function Filters() {
   const categories = useAppSelector((state) => state.services.categories);
@@ -24,7 +25,7 @@ export default function Filters() {
     const priceMax = searchParams.get("priceMax") ?? "";
     const category = searchParams.get("category") ?? "all";
     const page = searchParams.get("page") ?? 1;
-    const limit = searchParams.get("limit") ?? 10;
+    const limit = searchParams.get("limit") ?? DEFAULT_SERVICE_LIMIT;
 
     dispatch(
       setFilter({

@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 import {
   fetchCategories,
   fetchServices,
@@ -8,14 +8,10 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 
-import Filters from "./Filters";
 import ServiceCard from "@/features/Services/components/ServiceCard";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/shared/components/ui/pagination";
+
+import Filters from "./Filters";
+import Pagination from "./Pagination";
 
 //TODO: add loading state
 export default function Home() {
@@ -25,8 +21,6 @@ export default function Home() {
 
   const services = useAppSelector((state) => state.services.services);
   const filter = useAppSelector((state) => state.services.filter);
-  const totalPages = useAppSelector((state) => state.services.totalPages);
-
   useEffect(() => {
     dispatch(fetchServices(filter));
   }, [dispatch, filter]);
@@ -63,17 +57,7 @@ export default function Home() {
               <ServiceCard key={service.id} service={service} />
             ))}
           </div>
-          <Pagination className="flex justify-center">
-            <PaginationContent>
-              {Array.from({ length: totalPages }).map((_, index) => (
-                <PaginationItem key={index}>
-                  <PaginationLink href={`?page=${index + 1}`}>
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-            </PaginationContent>
-          </Pagination>
+          <Pagination />
         </div>
       </div>
     </div>
