@@ -19,7 +19,7 @@ interface ServicesState {
   error: string | null;
 }
 
-const initialState: ServicesState = {
+export const initialState: ServicesState = {
   services: [],
   categories: [],
   loading: false,
