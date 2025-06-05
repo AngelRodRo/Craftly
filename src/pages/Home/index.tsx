@@ -19,8 +19,12 @@ export default function Home() {
 
   const [search, setSearch] = useState("");
 
-  const services = useAppSelector((state) => state.services.services);
-  const filter = useAppSelector((state) => state.services.filter);
+  const { services, filter, totalPages } = useAppSelector((state) => ({
+    services: state.services.services,
+    filter: state.services.filter,
+    totalPages: state.services.totalPages,
+  }));
+
   useEffect(() => {
     dispatch(fetchServices(filter));
   }, [dispatch, filter]);
