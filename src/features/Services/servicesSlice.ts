@@ -28,6 +28,8 @@ export const initialState: ServicesState = {
     category: [],
     priceMin: null,
     priceMax: null,
+    page: 1,
+    limit: 10,
   },
   error: null,
 };

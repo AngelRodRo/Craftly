@@ -23,6 +23,8 @@ export default function Filters() {
     const priceMin = searchParams.get("priceMin") ?? "";
     const priceMax = searchParams.get("priceMax") ?? "";
     const category = searchParams.get("category") ?? "all";
+    const page = searchParams.get("page") ?? 1;
+    const limit = searchParams.get("limit") ?? 10;
 
     dispatch(
       setFilter({
@@ -31,6 +33,8 @@ export default function Filters() {
         priceMin: priceMin ? Number(priceMin) : null,
         priceMax: priceMax ? Number(priceMax) : null,
         category: category.split(","),
+        page: Number(page),
+        limit: Number(limit),
       })
     );
   }, [searchParams, dispatch, setSearchParams]);

@@ -6,7 +6,14 @@ export const fetchCategories = async () => {
 };
 
 export const fetchServices = async (filter: Filter) => {
-  let services = await generateMockServices(10);
+  let services = await generateMockServices(20);
+
+  if (filter.page && filter.limit) {
+    services = services.slice(
+      (filter.page - 1) * filter.limit,
+      filter.page * filter.limit
+    );
+  }
 
   if (filter.name) {
     services = services.filter((service) =>
