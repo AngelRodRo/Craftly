@@ -12,8 +12,8 @@ import ServiceCard from "@/features/Services/components/ServiceCard";
 
 import Filters from "./Filters";
 import Pagination from "./Pagination";
+import ServiceCardSkeleton from "@/features/Services/components/ServiceCardSkeleton";
 
-//TODO: add loading state
 export default function Home() {
   const dispatch = useAppDispatch();
 
@@ -49,13 +49,17 @@ export default function Home() {
           Search
         </Button>
       </div>
-      <div className="flex md:flex-row flex-col gap-4 mx-8">
+      <div className="flex gap-4 mx-8">
         <Filters />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-1 flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {services.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
+            {services.length > 0
+              ? services.map((service) => (
+                  <ServiceCard key={service.id} service={service} />
+                ))
+              : Array.from({ length: 12 }).map((_, index) => (
+                  <ServiceCardSkeleton key={index} />
+                ))}
           </div>
           <Pagination />
         </div>

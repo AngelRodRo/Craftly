@@ -14,9 +14,11 @@ export default function ServiceCard({ service }: ServiceCardProps) {
       <CardContent className="grid grid-cols-2 gap-4 items-center">
         <div>
           <img
-            className="rounded-lg w-full h-full object-cover"
+            className="rounded-lg object-cover"
             src={service.image}
             alt={service.name}
+            width={200}
+            height={200}
           />
         </div>
         <div className="flex flex-col gap-2">
