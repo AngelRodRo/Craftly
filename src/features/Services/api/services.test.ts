@@ -57,7 +57,7 @@ describe("fetchServices", () => {
   it("should return all services when no filter is applied", async () => {
     (generateMockServices as jest.Mock).mockReturnValue(mockServices);
 
-    const services = await fetchServices({
+    const { services, totalPages } = await fetchServices({
       name: "",
       priceMin: 0,
       priceMax: 0,
@@ -67,12 +67,13 @@ describe("fetchServices", () => {
     });
     expect(services).toBeDefined();
     expect(services.length).toBe(mockServices.length);
+    expect(totalPages).toBe(1);
   });
 
   it("should return services when name filter is applied", async () => {
     (generateMockServices as jest.Mock).mockReturnValue(mockServices);
 
-    const services = await fetchServices({
+    const { services, totalPages } = await fetchServices({
       name: "Service 10",
       priceMin: 0,
       priceMax: 0,
@@ -83,12 +84,13 @@ describe("fetchServices", () => {
 
     expect(services).toBeDefined();
     expect(services.length).toBe(1);
+    expect(totalPages).toBe(1);
   });
 
   it("should return services when priceMin filter is applied", async () => {
     (generateMockServices as jest.Mock).mockReturnValue(mockServices);
 
-    const services = await fetchServices({
+    const { services, totalPages } = await fetchServices({
       name: "",
       priceMin: 10,
       priceMax: 0,
@@ -99,12 +101,13 @@ describe("fetchServices", () => {
 
     expect(services).toBeDefined();
     expect(services.length).toBe(3);
+    expect(totalPages).toBe(1);
   });
 
   it("should return services when priceMin and priceMax filter is applied", async () => {
     (generateMockServices as jest.Mock).mockReturnValue(mockServices);
 
-    const services = await fetchServices({
+    const { services, totalPages } = await fetchServices({
       name: "",
       priceMin: 10,
       priceMax: 20,
@@ -115,12 +118,13 @@ describe("fetchServices", () => {
 
     expect(services).toBeDefined();
     expect(services.length).toBe(3);
+    expect(totalPages).toBe(1);
   });
 
   it("should return services when priceMax filter is applied", async () => {
     (generateMockServices as jest.Mock).mockReturnValue(mockServices);
 
-    const services = await fetchServices({
+    const { services, totalPages } = await fetchServices({
       name: "",
       priceMin: 0,
       priceMax: 10,
@@ -131,12 +135,13 @@ describe("fetchServices", () => {
 
     expect(services).toBeDefined();
     expect(services.length).toBe(2);
+    expect(totalPages).toBe(1);
   });
 
   it("should return services when category filter is applied", async () => {
     (generateMockServices as jest.Mock).mockReturnValue(mockServices);
 
-    const services = await fetchServices({
+    const { services, totalPages } = await fetchServices({
       name: "",
       priceMin: 0,
       priceMax: 0,
@@ -147,5 +152,6 @@ describe("fetchServices", () => {
 
     expect(services).toBeDefined();
     expect(services.length).toBe(1);
+    expect(totalPages).toBe(1);
   });
 });

@@ -51,7 +51,10 @@ describe("Services slice", () => {
   it("should handle fetchServices.fulfilled", () => {
     const action = {
       type: fetchServices.fulfilled.type,
-      payload: mockServices,
+      payload: {
+        services: mockServices,
+        totalPages: 1,
+      },
     };
     const state = reducer(initialState, action);
     expect(state.loading).toBe(false);
