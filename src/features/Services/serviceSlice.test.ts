@@ -31,6 +31,8 @@ describe("Services slice", () => {
         priceMin: 100,
         priceMax: 200,
         category: ["category1"],
+        page: 1,
+        limit: 10,
       })
     );
     expect(state.filter.name).toBe("Service 1");

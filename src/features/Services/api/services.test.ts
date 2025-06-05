@@ -62,6 +62,8 @@ describe("fetchServices", () => {
       priceMin: 0,
       priceMax: 0,
       category: [],
+      page: 1,
+      limit: 10,
     });
     expect(services).toBeDefined();
     expect(services.length).toBe(mockServices.length);
@@ -75,6 +77,8 @@ describe("fetchServices", () => {
       priceMin: 0,
       priceMax: 0,
       category: [],
+      page: 1,
+      limit: 10,
     });
 
     expect(services).toBeDefined();
@@ -89,6 +93,8 @@ describe("fetchServices", () => {
       priceMin: 10,
       priceMax: 0,
       category: [],
+      page: 1,
+      limit: 10,
     });
 
     expect(services).toBeDefined();
@@ -103,6 +109,8 @@ describe("fetchServices", () => {
       priceMin: 10,
       priceMax: 20,
       category: [],
+      page: 1,
+      limit: 10,
     });
 
     expect(services).toBeDefined();
@@ -117,6 +125,8 @@ describe("fetchServices", () => {
       priceMin: 0,
       priceMax: 10,
       category: [],
+      page: 1,
+      limit: 10,
     });
 
     expect(services).toBeDefined();
@@ -131,6 +141,8 @@ describe("fetchServices", () => {
       priceMin: 0,
       priceMax: 0,
       category: ["category1"],
+      page: 1,
+      limit: 10,
     });
 
     expect(services).toBeDefined();
