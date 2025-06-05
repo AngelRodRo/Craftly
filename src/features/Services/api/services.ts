@@ -1,12 +1,24 @@
 import type { Filter } from "../types";
 import { categories, generateMockServices } from "../utils";
+import type { Service } from "@/features/Services/model";
+import { DEFAULT_SERVICE_LIMIT } from "../constants/service";
 
 export const fetchCategories = async () => {
   return categories;
 };
 
-export const fetchServices = async (filter: Filter) => {
+export type FetchServicesResponse = {
+  services: Service[];
+  totalPages: number;
+};
+
+export const fetchServices = async (
+  filter: Filter
+): Promise<FetchServicesResponse> => {
   let services = await generateMockServices(20);
+  const totalPages = Math.ceil(
+    services.length / (filter.limit ?? DEFAULT_SERVICE_LIMIT)
+  );
 
   if (filter.page && filter.limit) {
     services = services.slice(
@@ -40,5 +52,8 @@ export const fetchServices = async (filter: Filter) => {
     }
   }
 
-  return services;
+  return {
+    services,
+    totalPages,
+  };
 };

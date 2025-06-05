@@ -10,8 +10,13 @@ import { Input } from "@/shared/components/ui/input";
 
 import Filters from "./Filters";
 import ServiceCard from "@/features/Services/components/ServiceCard";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/shared/components/ui/pagination";
 
-//TODO: add pagination
 //TODO: add loading state
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -20,6 +25,7 @@ export default function Home() {
 
   const services = useAppSelector((state) => state.services.services);
   const filter = useAppSelector((state) => state.services.filter);
+  const totalPages = useAppSelector((state) => state.services.totalPages);
 
   useEffect(() => {
     dispatch(fetchServices(filter));
@@ -51,10 +57,23 @@ export default function Home() {
       </div>
       <div className="flex md:flex-row flex-col gap-4 mx-8">
         <Filters />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {services.map((service) => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
+          </div>
+          <Pagination className="flex justify-center">
+            <PaginationContent>
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink href={`?page=${index + 1}`}>
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </div>

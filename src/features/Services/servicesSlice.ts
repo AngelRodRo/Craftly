@@ -7,13 +7,16 @@ import type { Service } from "./model";
 import {
   fetchServices as fetchServicesApi,
   fetchCategories as fetchCategoriesApi,
+  FetchServicesResponse,
 } from "./api";
 import type { Filter } from "./types";
+import { DEFAULT_SERVICE_LIMIT } from "./constants/service";
 
 interface ServicesState {
   services: Service[];
   categories: string[];
   loading: boolean;
+  totalPages: number;
 
   filter: Filter;
   error: string | null;
@@ -23,18 +26,19 @@ export const initialState: ServicesState = {
   services: [],
   categories: [],
   loading: false,
+  totalPages: 0,
   filter: {
     name: "",
     category: [],
     priceMin: null,
     priceMax: null,
     page: 1,
-    limit: 10,
+    limit: DEFAULT_SERVICE_LIMIT,
   },
   error: null,
 };
 
-export const fetchServices = createAsyncThunk<Service[], Filter>(
+export const fetchServices = createAsyncThunk<FetchServicesResponse, Filter>(
   "services/fetchServices",
   async (filter: Filter) => {
     const response = await fetchServicesApi(filter);
@@ -66,7 +70,8 @@ const servicesSlice = createSlice({
       })
       .addCase(fetchServices.fulfilled, (state, action) => {
         state.loading = false;
-        state.services = action.payload;
+        state.services = action.payload.services;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchServices.rejected, (state, action) => {
         state.loading = false;
