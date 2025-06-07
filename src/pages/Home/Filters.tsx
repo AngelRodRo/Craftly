@@ -68,7 +68,7 @@ export default function Filters() {
         }
         onValueChange={(value) => handleFilterChange("category", value)}
       >
-        <SelectTrigger>
+        <SelectTrigger data-testid="category-select">
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>
         <SelectContent>
@@ -84,7 +84,7 @@ export default function Filters() {
         value={filter.priceMin === null ? "" : filter.priceMin.toString()}
         onValueChange={(value) => handleFilterChange("priceMin", value)}
       >
-        <SelectTrigger>
+        <SelectTrigger data-testid="min-price-select">
           <SelectValue placeholder="Select a price" />
         </SelectTrigger>
         <SelectContent>
@@ -105,7 +105,7 @@ export default function Filters() {
         value={filter.priceMax === null ? "" : filter.priceMax.toString()}
         onValueChange={(value) => handleFilterChange("priceMax", value)}
       >
-        <SelectTrigger>
+        <SelectTrigger data-testid="max-price-select">
           <SelectValue placeholder="Select a price" />
         </SelectTrigger>
         <SelectContent>
