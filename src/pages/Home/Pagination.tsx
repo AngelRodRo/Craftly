@@ -1,6 +1,3 @@
-import { useAppSelector } from "@/app/hook";
-import type { RootState } from "@/app/store";
-
 import {
   Pagination,
   PaginationContent,
@@ -10,33 +7,40 @@ import {
   PaginationPrevious,
 } from "@/shared/components/ui/pagination";
 
-export default function PaginationComponent() {
-  const filter = useAppSelector((state: RootState) => state.services.filter);
-  const totalPages = useAppSelector(
-    (state: RootState) => state.services.totalPages
-  );
+interface PaginationComponentProps {
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
 
+export default function PaginationComponent({
+  totalPages,
+  currentPage,
+  onPageChange,
+}: PaginationComponentProps) {
+  console.log(currentPage, totalPages);
   return (
-    <Pagination className="flex justify-center">
+    <Pagination data-testid="pagination" className="flex justify-center">
       <PaginationContent>
-        {filter.page > 1 && (
-          <PaginationItem>
-            <PaginationPrevious href={`?page=${filter.page - 1}`} />
+        {currentPage > 1 && (
+          <PaginationItem data-testid="pagination-previous">
+            <PaginationPrevious onClick={() => onPageChange(currentPage - 1)} />
           </PaginationItem>
         )}
         {Array.from({ length: totalPages }).map((_, index) => (
-          <PaginationItem key={index}>
+          <PaginationItem key={index} data-testid="pagination-item">
             <PaginationLink
-              isActive={filter.page === index + 1}
-              href={`?page=${index + 1}`}
+              isActive={currentPage === index + 1}
+              onClick={() => onPageChange(index + 1)}
             >
               {index + 1}
             </PaginationLink>
           </PaginationItem>
         ))}
-        {filter.page < totalPages && (
-          <PaginationItem>
-            <PaginationNext href={`?page=${filter.page + 1}`} />
+
+        {currentPage < totalPages && (
+          <PaginationItem data-testid="pagination-next">
+            <PaginationNext onClick={() => onPageChange(currentPage + 1)} />
           </PaginationItem>
         )}
       </PaginationContent>

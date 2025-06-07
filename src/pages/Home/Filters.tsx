@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useSearchParams } from "react-router";
-
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { setFilter } from "@/features/Services/servicesSlice";
 import {
@@ -10,42 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { DEFAULT_SERVICE_LIMIT } from "@/features/Services/constants/service";
 
 export default function Filters() {
   const categories = useAppSelector((state) => state.services.categories);
   const filter = useAppSelector((state) => state.services.filter);
   const dispatch = useAppDispatch();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    const name = searchParams.get("name") ?? "";
-    const priceMin = searchParams.get("priceMin") ?? "";
-    const priceMax = searchParams.get("priceMax") ?? "";
-    const category = searchParams.get("category") ?? "all";
-    const page = searchParams.get("page") ?? 1;
-    const limit = searchParams.get("limit") ?? DEFAULT_SERVICE_LIMIT;
-
-    dispatch(
-      setFilter({
-        ...filter,
-        name,
-        priceMin: priceMin ? Number(priceMin) : null,
-        priceMax: priceMax ? Number(priceMax) : null,
-        category: category.split(","),
-        page: Number(page),
-        limit: Number(limit),
-      })
-    );
-  }, [searchParams, dispatch, setSearchParams]);
-
   const handleFilterChange = (key: string, value: string) => {
-    setSearchParams((prev) => {
-      prev.set(key, value);
-      return prev;
-    });
-
     if (key === "category") {
       if (value === "all") {
         dispatch(setFilter({ ...filter, category: [] }));
