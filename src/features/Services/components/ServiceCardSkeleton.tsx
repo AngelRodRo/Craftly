@@ -8,7 +8,7 @@ export default function ServiceCardSkeleton() {
   return (
     <Card key={id} data-testid="service-card-skeleton">
       <CardContent className="grid grid-cols-2 gap-4 items-center">
-        <Skeleton className="w-full w-[200px] h-[200px] rounded-lg" />
+        <Skeleton className="w-full h-full rounded-lg" />
         <div className="flex flex-col gap-2">
           <Skeleton className="h-6 w-3/4" />
           <Skeleton className="h-4 w-1/2" />
