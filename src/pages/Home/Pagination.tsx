@@ -18,7 +18,6 @@ export default function PaginationComponent({
   currentPage,
   onPageChange,
 }: PaginationComponentProps) {
-  console.log(currentPage, totalPages);
   return (
     <Pagination data-testid="pagination" className="flex justify-center">
       <PaginationContent>
