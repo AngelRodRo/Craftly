@@ -43,7 +43,7 @@ export default function Home() {
         name,
         priceMin: priceMin ? Number(priceMin) : null,
         priceMax: priceMax ? Number(priceMax) : null,
-        category: category.split(","),
+        category: category === "all" ? [] : category.split(","),
         page: Number(page),
         limit: Number(limit),
       })
