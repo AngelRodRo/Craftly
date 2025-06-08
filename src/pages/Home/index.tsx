@@ -84,6 +84,12 @@ export default function Home() {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (search === "") {
+      dispatch(fetchServices({ ...filter, name: "" }));
+    }
+  }, [search, dispatch]);
+
   return (
     <div className="flex flex-col gap-4 my-4">
       <div className="flex justify-center gap-2">
