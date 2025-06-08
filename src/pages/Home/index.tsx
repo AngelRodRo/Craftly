@@ -61,8 +61,11 @@ export default function Home() {
       if (filter.priceMax !== null) {
         prev.set("priceMax", filter.priceMax.toString());
       }
-      if (filter.category.length > 0 && filter.category[0] !== "all") {
+
+      if (filter.category.length > 0) {
         prev.set("category", filter.category.join(","));
+      } else {
+        prev.delete("category");
       }
 
       prev.set("page", filter.page.toString());
