@@ -9,8 +9,8 @@ const mockService: Service = {
   category: "category1",
   description: "Description 1",
   image: "image1.jpg",
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 };
 
 describe("ServiceCard", () => {
