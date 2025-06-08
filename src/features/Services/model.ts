@@ -5,8 +5,8 @@ interface Service {
   price: number;
   image: string;
   category: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type { Service };

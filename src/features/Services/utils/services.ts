@@ -19,7 +19,7 @@ export const generateMockServices = async (
     price: Math.floor(Math.random() * 200) + 50, // Random price between 50 and 250
     image: `https://picsum.photos/seed/${index}/200/200`, // Random image using picsum
     category: categories[Math.floor(Math.random() * categories.length)],
-    createdAt: new Date(Date.now() - Math.random() * 10000000000), // Random date within past ~4 months
-    updatedAt: new Date(), // Current date
+    createdAt: new Date(Date.now() - Math.random() * 10000000000).toISOString(), // Random date within past ~4 months
+    updatedAt: new Date().toISOString(), // Current date
   }));
 };
