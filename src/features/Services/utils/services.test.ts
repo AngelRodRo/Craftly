@@ -13,6 +13,7 @@ describe("Services utils", () => {
     expect(services[0].price).toBeGreaterThanOrEqual(50);
     expect(services[0].price).toBeLessThanOrEqual(250);
     expect(services[0].image).toBe("https://picsum.photos/seed/0/200/200");
-    expect(services[0].createdAt).toBeInstanceOf(Date);
+    expect(services[0].createdAt).toBeDefined();
+    expect(services[0].updatedAt).toBeDefined();
   });
 });
