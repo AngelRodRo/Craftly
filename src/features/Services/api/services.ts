@@ -16,16 +16,6 @@ export const fetchServices = async (
   filter: Filter
 ): Promise<FetchServicesResponse> => {
   let services = await generateMockServices(20);
-  const totalPages = Math.ceil(
-    services.length / (filter.limit ?? DEFAULT_SERVICE_LIMIT)
-  );
-
-  if (filter.page && filter.limit) {
-    services = services.slice(
-      (filter.page - 1) * filter.limit,
-      filter.page * filter.limit
-    );
-  }
 
   if (filter.name) {
     services = services.filter((service) =>
@@ -50,6 +40,17 @@ export const fetchServices = async (
         filter.category.includes(service.category)
       );
     }
+  }
+
+  const totalPages = Math.ceil(
+    services.length / (filter.limit ?? DEFAULT_SERVICE_LIMIT)
+  );
+
+  if (filter.page && filter.limit) {
+    services = services.slice(
+      (filter.page - 1) * filter.limit,
+      filter.page * filter.limit
+    );
   }
 
   return {
