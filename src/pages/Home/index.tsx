@@ -24,12 +24,10 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { services, filter, totalPages, loading } = useAppSelector((state) => ({
-    services: state.services.services,
-    filter: state.services.filter,
-    totalPages: state.services.totalPages,
-    loading: state.services.loading,
-  }));
+  const services = useAppSelector((state) => state.services.services);
+  const filter = useAppSelector((state) => state.services.filter);
+  const totalPages = useAppSelector((state) => state.services.totalPages);
+  const loading = useAppSelector((state) => state.services.loading);
 
   useEffect(() => {
     const name = searchParams.get("name") ?? "";
