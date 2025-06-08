@@ -3,6 +3,9 @@ global.TextEncoder = TextEncoder;
 // @ts-expect-error - Node's TextDecoder is compatible enough for testing purposes
 global.TextDecoder = TextDecoder;
 
+// Mock scrollIntoView for Radix UI components
+Element.prototype.scrollIntoView = jest.fn();
+
 import React, { PropsWithChildren } from "react";
 import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
