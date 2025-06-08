@@ -65,6 +65,26 @@ describe("Home Component", () => {
     });
   });
 
+  it("should fetch all services when search input is empty", async () => {
+    const store = createMockStore();
+    renderWithProviders(<Home />, { store });
+
+    const searchInput = screen.getByPlaceholderText("Search");
+
+    await waitFor(() => {
+      fireEvent.change(searchInput, { target: { value: "test" } });
+    });
+
+    await act(async () => {
+      fireEvent.change(searchInput, { target: { value: "" } });
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("Service 1")).toBeInTheDocument();
+      expect(screen.getByText("Service 2")).toBeInTheDocument();
+    });
+  });
+
   it("disables search button when search input is empty", async () => {
     const store = createMockStore();
 
