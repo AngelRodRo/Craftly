@@ -271,4 +271,20 @@ describe("fetchServices", () => {
 
     expect(totalPages).toBe(1);
   });
+
+  it("should return correct total pages when category filter is equal to 'category1' and min price is equal to 10", async () => {
+    (generateMockServices as jest.Mock).mockReturnValue(mockServices);
+
+    const { totalPages } = await fetchServices({
+      name: "",
+      priceMin: 10,
+      priceMax: 0,
+      category: ["category1"],
+      page: 1,
+      limit: 10,
+    });
+
+    expect(totalPages).toBe(1);
+  });
+  
 });
