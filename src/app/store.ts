@@ -2,10 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "@/features/Auth/authSlice";
 import servicesReducer from "@/features/Services/servicesSlice";
+import cartReducer from "@/features/Cart/cartSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   services: servicesReducer,
+  cart: cartReducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {
