@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import ServiceCard from "./ServiceCard";
 import type { Service } from "../model.ts";
 
@@ -22,5 +22,17 @@ describe("ServiceCard", () => {
     expect(screen.getByText(mockService.description)).toBeDefined();
     expect(screen.getByAltText(mockService.name)).toBeDefined();
     expect(screen.getByRole("button", { name: "Add to cart" })).toBeDefined();
+  });
+
+  it("should trigger add to cart action", () => {
+    const handleAddToCart = jest.fn();
+    render(<ServiceCard service={mockService} onAddToCart={handleAddToCart} />);
+    const button = screen.getByRole("button", { name: "Add to cart" });
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    expect(handleAddToCart).toHaveBeenCalled();
   });
 });

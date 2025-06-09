@@ -6,9 +6,13 @@ import { ShoppingCart } from "lucide-react";
 
 interface ServiceCardProps {
   service: Service;
+  onAddToCart?: () => void;
 }
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+export default function ServiceCard({
+  service,
+  onAddToCart,
+}: ServiceCardProps) {
   return (
     <Card key={service.id}>
       <CardContent className="grid grid-cols-2 gap-4 items-center">
@@ -27,7 +31,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           <p className="text-sm text-gray-500">{service.description}</p>
           <p className="text-xl font-bold">S/. {service.price}</p>
         </div>
-        <Button className="w-full cursor-pointer">
+        <Button className="w-full cursor-pointer" onClick={onAddToCart}>
           <ShoppingCart />
           Add to cart
         </Button>
