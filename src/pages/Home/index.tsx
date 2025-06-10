@@ -17,6 +17,8 @@ import Filters from "./Filters";
 import Pagination from "./Pagination";
 import ServiceCardSkeleton from "@/features/Services/components/ServiceCardSkeleton";
 import { DEFAULT_SERVICE_LIMIT } from "@/features/Services/constants/service";
+import { addToCart } from "@/features/Cart/cartSlice";
+import { Service } from "@/features/Services/model";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -28,6 +30,20 @@ export default function Home() {
   const filter = useAppSelector((state) => state.services.filter);
   const totalPages = useAppSelector((state) => state.services.totalPages);
   const loading = useAppSelector((state) => state.services.loading);
+
+  const handleAddToCart = (service: Service) => {
+    dispatch(
+      addToCart({
+        id: service.id,
+        name: service.name,
+        price: service.price,
+        quantity: 1,
+        description: service.description,
+        image: service.image,
+        serviceId: service.id,
+      })
+    );
+  };
 
   useEffect(() => {
     const name = searchParams.get("name") ?? "";
@@ -116,7 +132,11 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {!loading
               ? services.map((service) => (
-                  <ServiceCard key={service.id} service={service} />
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    onAddToCart={() => handleAddToCart(service)}
+                  />
                 ))
               : Array.from({ length: 12 }).map((_, index) => (
                   <ServiceCardSkeleton key={index} />
