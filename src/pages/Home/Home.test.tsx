@@ -18,7 +18,6 @@ jest.mock("@radix-ui/react-select", () => {
   };
 });
 
-// TODO: Update tests for new way to handle search params
 const mockSearchParams = new URLSearchParams();
 const mockSetSearchParams = jest.fn();
 
@@ -43,6 +42,9 @@ const createMockStore = (initialState = {}) => {
       loading: false,
       error: null,
       ...initialState,
+    },
+    cart: {
+      items: [],
     },
   });
 };
@@ -203,6 +205,47 @@ describe("Home Component", () => {
       const prevParams = new URLSearchParams();
       const newParams = setParamsFn(prevParams);
       expect(newParams.get("page")).toBe("1");
+    });
+  });
+
+  it("should add to cart when service card is clicked", async () => {
+    const store = createMockStore({
+      services: [
+        {
+          id: "1",
+          name: "Service 1",
+          description: "Description 1",
+          price: 100,
+          image: "image1.jpg",
+          category: "category1",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      ],
+    });
+    renderWithProviders(<Home />, { store });
+
+    await waitFor(() => {
+      expect(screen.getByText("Service 1")).toBeInTheDocument();
+    });
+
+    const addToCartButton = screen.getByRole("button", { name: "Add to cart" });
+    await act(async () => {
+      fireEvent.click(addToCartButton);
+    });
+
+    await waitFor(() => {
+      expect(store.getState().cart.items).toEqual([
+        {
+          id: "1",
+          name: "Service 1",
+          price: 100,
+          quantity: 1,
+          description: "Description 1",
+          image: "image1.jpg",
+          serviceId: "1",
+        },
+      ]);
     });
   });
 });
