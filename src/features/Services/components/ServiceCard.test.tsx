@@ -35,4 +35,29 @@ describe("ServiceCard", () => {
 
     expect(handleAddToCart).toHaveBeenCalled();
   });
+
+  it("should change the button text when the service is in the cart", () => {
+    render(<ServiceCard service={mockService} isInCart={true} />);
+    const button = screen.getByRole("button", { name: "Remove from cart" });
+
+    expect(button).toBeDefined();
+  });
+
+  it("should trigger remove from cart action", () => {
+    const handleRemoveFromCart = jest.fn();
+    render(
+      <ServiceCard
+        service={mockService}
+        isInCart={true}
+        onRemoveFromCart={handleRemoveFromCart}
+      />
+    );
+    const button = screen.getByRole("button", { name: "Remove from cart" });
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    expect(handleRemoveFromCart).toHaveBeenCalled();
+  });
 });
