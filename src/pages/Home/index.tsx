@@ -17,7 +17,7 @@ import Filters from "./Filters";
 import Pagination from "./Pagination";
 import ServiceCardSkeleton from "@/features/Services/components/ServiceCardSkeleton";
 import { DEFAULT_SERVICE_LIMIT } from "@/features/Services/constants/service";
-import { addToCart } from "@/features/Cart/cartSlice";
+import { addToCart, fetchCartItems } from "@/features/Cart/cartSlice";
 import { Service } from "@/features/Services/model";
 
 export default function Home() {
@@ -30,6 +30,7 @@ export default function Home() {
   const filter = useAppSelector((state) => state.services.filter);
   const totalPages = useAppSelector((state) => state.services.totalPages);
   const loading = useAppSelector((state) => state.services.loading);
+  const cartItems = useAppSelector((state) => state.cart.items);
 
   const handleAddToCart = (service: Service) => {
     dispatch(
@@ -37,7 +38,6 @@ export default function Home() {
         id: service.id,
         name: service.name,
         price: service.price,
-        quantity: 1,
         description: service.description,
         image: service.image,
         serviceId: service.id,
@@ -106,6 +106,10 @@ export default function Home() {
     }
   }, [search, dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchCartItems());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col gap-4 my-4">
       <div className="flex justify-center gap-2">
@@ -135,6 +139,9 @@ export default function Home() {
                   <ServiceCard
                     key={service.id}
                     service={service}
+                    isInCart={cartItems.some(
+                      (item) => item.serviceId === service.id
+                    )}
                     onAddToCart={() => handleAddToCart(service)}
                   />
                 ))

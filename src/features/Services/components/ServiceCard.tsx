@@ -6,12 +6,16 @@ import { ShoppingCart } from "lucide-react";
 
 interface ServiceCardProps {
   service: Service;
+  isInCart?: boolean;
   onAddToCart?: () => void;
+  onRemoveFromCart?: () => void;
 }
 
 export default function ServiceCard({
   service,
   onAddToCart,
+  isInCart,
+  onRemoveFromCart,
 }: ServiceCardProps) {
   return (
     <Card key={service.id}>
@@ -31,9 +35,12 @@ export default function ServiceCard({
           <p className="text-sm text-gray-500">{service.description}</p>
           <p className="text-xl font-bold">S/. {service.price}</p>
         </div>
-        <Button className="w-full cursor-pointer" onClick={onAddToCart}>
+        <Button
+          className="w-full cursor-pointer"
+          onClick={isInCart ? onRemoveFromCart : onAddToCart}
+        >
           <ShoppingCart />
-          Add to cart
+          {isInCart ? "Remove from cart" : "Add to cart"}
         </Button>
       </CardContent>
     </Card>

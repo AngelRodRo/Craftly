@@ -12,18 +12,20 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: {
-    id: "1",
-    name: "John Doe",
-    email: "john@doe.com",
-  },
+  user: null,
   isAuthenticated: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+    },
+  },
 });
 
+export const { setUser } = authSlice.actions;
 export default authSlice.reducer;
