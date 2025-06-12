@@ -23,3 +23,11 @@ export const loadCart = async (): Promise<CartItem[]> => {
     }, 500);
   });
 };
+
+export const removeFromCart = async (cartItemId: string) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(cartItemId);
+    }, 500);
+  });
+};

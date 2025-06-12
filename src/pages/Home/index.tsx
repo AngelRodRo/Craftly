@@ -17,7 +17,11 @@ import Filters from "./Filters";
 import Pagination from "./Pagination";
 import ServiceCardSkeleton from "@/features/Services/components/ServiceCardSkeleton";
 import { DEFAULT_SERVICE_LIMIT } from "@/features/Services/constants/service";
-import { addToCart, fetchCartItems } from "@/features/Cart/cartSlice";
+import {
+  addToCart,
+  fetchCartItems,
+  removeFromCart,
+} from "@/features/Cart/cartSlice";
 import { Service } from "@/features/Services/model";
 
 export default function Home() {
@@ -43,6 +47,10 @@ export default function Home() {
         serviceId: service.id,
       })
     );
+  };
+
+  const handleRemoveFromCart = (serviceId: string) => {
+    dispatch(removeFromCart(serviceId));
   };
 
   useEffect(() => {
@@ -143,6 +151,7 @@ export default function Home() {
                       (item) => item.serviceId === service.id
                     )}
                     onAddToCart={() => handleAddToCart(service)}
+                    onRemoveFromCart={() => handleRemoveFromCart(service.id)}
                   />
                 ))
               : Array.from({ length: 12 }).map((_, index) => (
