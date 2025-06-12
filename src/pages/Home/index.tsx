@@ -17,11 +17,7 @@ import Filters from "./Filters";
 import Pagination from "./Pagination";
 import ServiceCardSkeleton from "@/features/Services/components/ServiceCardSkeleton";
 import { DEFAULT_SERVICE_LIMIT } from "@/features/Services/constants/service";
-import {
-  addToCart,
-  fetchCartItems,
-  removeFromCart,
-} from "@/features/Cart/cartSlice";
+import { addToCart, removeFromCart } from "@/features/Cart/cartSlice";
 import { Service } from "@/features/Services/model";
 
 export default function Home() {
@@ -113,10 +109,6 @@ export default function Home() {
       dispatch(fetchServices({ ...filter, name: "" }));
     }
   }, [search, dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchCartItems());
-  }, [dispatch]);
 
   return (
     <div className="flex  flex-col gap-4 my-4">
