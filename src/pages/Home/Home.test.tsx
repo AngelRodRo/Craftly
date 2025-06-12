@@ -10,8 +10,13 @@ import type { Service } from "@/features/Services/model";
 import { renderWithProviders } from "@/shared/utils/test-utils";
 import { setupStore } from "@/app/store";
 import { CART_KEY } from "@/shared/constants";
-import { addToCart as addToCartApi, loadCart } from "@/features/Cart/api/cart";
+import {
+  addToCart as addToCartApi,
+  loadCart,
+  removeFromCart as removeFromCartApi,
+} from "@/features/Cart/api/cart";
 import { setUser } from "@/features/Auth/authSlice";
+import { CartItem } from "@/features/Cart/model";
 
 const mockLocalStorage = {
   getItem: jest.fn(),
@@ -25,18 +30,30 @@ Object.defineProperty(window, "localStorage", {
   writable: true,
 });
 
+const mockCartItem: CartItem = {
+  id: "1",
+  name: "Service 1",
+  price: 100,
+  description: "Description 1",
+  image: "image1.jpg",
+  serviceId: "1",
+};
+
+const mockService: Service = {
+  id: "1",
+  name: "Service 1",
+  description: "Description 1",
+  price: 100,
+  image: "image1.jpg",
+  category: "category1",
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};
+
 jest.mock("@/features/Cart/api/cart", () => ({
-  addToCart: jest.fn().mockResolvedValue({ serviceId: "1" }),
-  loadCart: jest.fn().mockResolvedValue([
-    {
-      id: "1",
-      name: "Service 1",
-      price: 100,
-      description: "Description 1",
-      image: "image1.jpg",
-      serviceId: "1",
-    },
-  ]),
+  addToCart: jest.fn().mockResolvedValue({ cartItemId: "1" }),
+  loadCart: jest.fn().mockResolvedValue([]),
+  removeFromCart: jest.fn().mockResolvedValue("1"),
 }));
 
 jest.mock("@radix-ui/react-select", () => {
@@ -245,18 +262,7 @@ describe("Home Component", () => {
 
   it("should add to cart when service card is clicked", async () => {
     const store = createMockStore({
-      services: [
-        {
-          id: "1",
-          name: "Service 1",
-          description: "Description 1",
-          price: 100,
-          image: "image1.jpg",
-          category: "category1",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ],
+      services: [mockService],
     });
     renderWithProviders(<Home />, { store });
 
@@ -270,33 +276,13 @@ describe("Home Component", () => {
     });
 
     await waitFor(() => {
-      expect(store.getState().cart.items).toEqual([
-        {
-          id: "1",
-          name: "Service 1",
-          price: 100,
-          description: "Description 1",
-          image: "image1.jpg",
-          serviceId: "1",
-        },
-      ]);
+      expect(store.getState().cart.items).toEqual([mockCartItem]);
     });
   });
 
   it("should use localStorage to persist cart items when user is not logged in", async () => {
     const store = createMockStore({
-      services: [
-        {
-          id: "1",
-          name: "Service 1",
-          description: "Description 1",
-          price: 100,
-          image: "image1.jpg",
-          category: "category1",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ],
+      services: [mockService],
       auth: {
         user: null,
       },
@@ -323,18 +309,7 @@ describe("Home Component", () => {
 
   it("should not use localStorage when user is logged in and call api to add to the cart", async () => {
     const store = createMockStore({
-      services: [
-        {
-          id: "2",
-          name: "Service 1",
-          description: "Description 1",
-          price: 100,
-          image: "image1.jpg",
-          category: "category1",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ],
+      services: [mockService],
     });
 
     store.dispatch(setUser({ id: "1", name: "John Doe" }));
@@ -355,18 +330,7 @@ describe("Home Component", () => {
   });
 
   it("should retrieve the cart items from localStorage when the component is mounted and user is not logged in", async () => {
-    const mockCartItems = [
-      {
-        id: "1",
-        name: "Service 1",
-        price: 100,
-        description: "Description 1",
-        image: "image1.jpg",
-        serviceId: "1",
-      },
-    ];
-
-    mockLocalStorage.getItem.mockReturnValue(JSON.stringify(mockCartItems));
+    mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockCartItem]));
 
     const store = createMockStore({
       services: [],
@@ -379,7 +343,7 @@ describe("Home Component", () => {
     renderWithProviders(<Home />, { store });
 
     await waitFor(() => {
-      expect(store.getState().cart.items).toEqual(mockCartItems);
+      expect(store.getState().cart.items).toEqual([mockCartItem]);
     });
   });
 
@@ -399,7 +363,103 @@ describe("Home Component", () => {
     });
 
     await waitFor(() => {
-      expect(loadCart).toHaveBeenCalledWith();
+      expect(loadCart).toHaveBeenCalled();
+    });
+  });
+
+  it("should display service item with 'Remove from cart' button when the service is in the cart", async () => {
+    const store = createMockStore({
+      services: [mockService],
+      cart: {
+        items: [],
+        loading: false,
+      },
+    });
+
+    renderWithProviders(<Home />, { store });
+
+    await waitFor(() => {
+      expect(screen.getByText("Service 1")).toBeInTheDocument();
+    });
+
+    const addToCartButton = screen.getByRole("button", { name: "Add to cart" });
+    await act(async () => {
+      fireEvent.click(addToCartButton);
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "Remove from cart" })
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("should remove from cart stored in localStorage when the 'Remove from cart' button is clicked and user is not logged in", async () => {
+    mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockCartItem]));
+
+    const store = createMockStore({
+      services: [mockService],
+      cart: {
+        items: [mockCartItem],
+        loading: false,
+      },
+    });
+
+    renderWithProviders(<Home />, { store });
+
+    await waitFor(() => {
+      expect(screen.getByText("Service 1")).toBeInTheDocument();
+    });
+
+    const removeFromCartButton = screen.getByRole("button", {
+      name: "Remove from cart",
+    });
+
+    await act(async () => {
+      fireEvent.click(removeFromCartButton);
+    });
+
+    await waitFor(() => {
+      expect(store.getState().cart.items).toEqual([]);
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        CART_KEY,
+        JSON.stringify([])
+      );
+    });
+  });
+
+  it("should remove from cart stored in the api when the 'Remove from cart' button is clicked and user is logged in", async () => {
+    const store = createMockStore({
+      services: [mockService],
+      cart: {
+        items: [mockCartItem],
+        loading: false,
+      },
+    });
+
+    store.dispatch(setUser({ id: "1", name: "John Doe" }));
+
+    renderWithProviders(<Home />, { store });
+
+    await waitFor(() => {
+      expect(screen.getByText("Service 1")).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: "Add to cart" }));
+    });
+
+    const removeFromCartButton = screen.getByRole("button", {
+      name: "Remove from cart",
+    });
+
+    await act(async () => {
+      fireEvent.click(removeFromCartButton);
+    });
+
+    await waitFor(() => {
+      expect(removeFromCartApi).toHaveBeenCalled();
+      expect(store.getState().cart.items).toEqual([]);
     });
   });
 });

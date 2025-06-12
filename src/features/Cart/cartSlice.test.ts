@@ -2,6 +2,7 @@ import reducer, {
   addToCart,
   fetchCartItems,
   initialState,
+  removeFromCart,
   setCartItems,
 } from "./cartSlice";
 
@@ -144,5 +145,83 @@ describe("cartSlice", () => {
       action
     );
     expect(state.items).toEqual([mockCartItem]);
+  });
+
+  it("should handle removeFromCart.fulfilled", () => {
+    const action = {
+      type: removeFromCart.fulfilled.type,
+      payload: "1",
+    };
+
+    const state = reducer(
+      {
+        ...initialState,
+        items: [
+          {
+            id: "1",
+            name: "Test Item",
+            price: 10,
+            description: "Test Description",
+            image: "Test Image",
+            serviceId: "1",
+          },
+        ],
+      },
+      action
+    );
+
+    expect(state.items).toEqual([]);
+  });
+
+  it("should handle removeFromCart.rejected", () => {
+    const action = {
+      type: removeFromCart.rejected.type,
+      error: { message: "Error" },
+    };
+
+    const mockCartItem = {
+      id: "1",
+      name: "Test Item",
+      price: 10,
+      description: "Test Description",
+      image: "Test Image",
+      serviceId: "1",
+    };
+
+    const state = reducer(
+      {
+        ...initialState,
+        items: [mockCartItem],
+      },
+      action
+    );
+    expect(state.items).toEqual([mockCartItem]);
+    expect(state.error).toEqual("Error");
+  });
+
+  it("should handle removeFromCart.pending", () => {
+    const action = {
+      type: removeFromCart.pending.type,
+    };
+
+    const mockCartItem = {
+      id: "1",
+      name: "Test Item",
+      price: 10,
+      description: "Test Description",
+      image: "Test Image",
+      serviceId: "1",
+    };
+
+    const state = reducer(
+      {
+        ...initialState,
+        items: [mockCartItem],
+      },
+      action
+    );
+
+    expect(state.items).toEqual([mockCartItem]);
+    expect(state.loading).toEqual(true);
   });
 });
