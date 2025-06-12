@@ -119,7 +119,7 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col gap-4 my-4">
+    <div className="flex  flex-col gap-4 my-4">
       <div className="flex justify-center gap-2">
         <Input
           type="text"
@@ -138,7 +138,7 @@ export default function Home() {
           Search
         </Button>
       </div>
-      <div className="flex gap-4 mx-8">
+      <div className="flex gap-4 mx-8 md:flex-row flex-col">
         <Filters />
         <div className="flex flex-1 flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
