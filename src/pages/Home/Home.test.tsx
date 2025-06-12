@@ -12,11 +12,11 @@ import { setupStore } from "@/app/store";
 import { CART_KEY } from "@/shared/constants";
 import {
   addToCart as addToCartApi,
-  loadCart,
   removeFromCart as removeFromCartApi,
 } from "@/features/Cart/api/cart";
 import { setUser } from "@/features/Auth/authSlice";
 import { CartItem } from "@/features/Cart/model";
+import { fetchCartItems } from "@/features/Cart/cartSlice";
 
 const mockLocalStorage = {
   getItem: jest.fn(),
@@ -329,44 +329,6 @@ describe("Home Component", () => {
     });
   });
 
-  it("should retrieve the cart items from localStorage when the component is mounted and user is not logged in", async () => {
-    mockLocalStorage.getItem.mockReturnValue(JSON.stringify([mockCartItem]));
-
-    const store = createMockStore({
-      services: [],
-      cart: {
-        items: [],
-        loading: false,
-      },
-    });
-
-    renderWithProviders(<Home />, { store });
-
-    await waitFor(() => {
-      expect(store.getState().cart.items).toEqual([mockCartItem]);
-    });
-  });
-
-  it("should fetch the cart items from the api when the component is mounted and user is logged in", async () => {
-    const store = createMockStore({
-      services: [],
-      cart: {
-        items: [],
-        loading: false,
-      },
-    });
-
-    store.dispatch(setUser({ id: "1", name: "John Doe" }));
-
-    await waitFor(() => {
-      renderWithProviders(<Home />, { store });
-    });
-
-    await waitFor(() => {
-      expect(loadCart).toHaveBeenCalled();
-    });
-  });
-
   it("should display service item with 'Remove from cart' button when the service is in the cart", async () => {
     const store = createMockStore({
       services: [mockService],
@@ -405,6 +367,8 @@ describe("Home Component", () => {
       },
     });
 
+    store.dispatch(fetchCartItems());
+
     renderWithProviders(<Home />, { store });
 
     await waitFor(() => {
@@ -438,6 +402,8 @@ describe("Home Component", () => {
     });
 
     store.dispatch(setUser({ id: "1", name: "John Doe" }));
+
+    store.dispatch(fetchCartItems());
 
     renderWithProviders(<Home />, { store });
 
