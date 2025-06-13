@@ -10,7 +10,7 @@ interface CheckoutItemProps {
 
 export default function CheckoutItem({ item }: CheckoutItemProps) {
   return (
-    <Card>
+    <Card className="w-full">
       <CardContent>
         <div className="flex justify-between gap-4 items-center">
           <img src={item.image} alt={item.name} className="w-16 h-16" />
@@ -23,7 +23,7 @@ export default function CheckoutItem({ item }: CheckoutItemProps) {
             </Button>
           </div>
           <div className="flex flex-col gap-2 items-end">
-            <p className="text-lg font-bold">{item.price}</p>
+            <p className="text-lg font-bold">S/. {item.price}</p>
           </div>
         </div>
       </CardContent>

@@ -16,7 +16,7 @@ describe("CheckoutItem", () => {
     render(<CheckoutItem item={mockCartItem} />);
     expect(screen.getByText(mockCartItem.name)).toBeDefined();
     expect(screen.getByText(mockCartItem.description)).toBeDefined();
-    expect(screen.getByText(mockCartItem.price.toString())).toBeDefined();
+    expect(screen.getByText(`S/. ${mockCartItem.price}`)).toBeDefined();
     expect(screen.getByRole("button", { name: "Remove" })).toBeDefined();
   });
 });
