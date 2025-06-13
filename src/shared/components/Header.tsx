@@ -14,7 +14,7 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex items-center gap-2 justify-end">
-        <Link to="/cart">
+        <Link to="/checkout" data-testid="checkout-link">
           <div className="relative" data-testid="shopping-cart-icon">
             <ShoppingCartIcon className="w-6 h-6" />
             {cartQuantity > 0 && (
